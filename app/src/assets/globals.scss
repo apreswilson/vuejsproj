@@ -1,0 +1,8 @@
+$default-transition: 0.3s;
+
+%transition {
+  transition: $default-transition;
+  -webkit-transition: $default-transition;
+  -moz-transition: $default-transition;
+  -o-transition: $default-transition;
+}
