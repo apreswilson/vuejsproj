@@ -8,6 +8,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
+
 await mongoose.connect(process.env.MONGODB_URI, {
    bufferCommands: false
 })
