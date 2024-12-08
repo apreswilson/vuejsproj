@@ -32,7 +32,7 @@ const updateTodoFromList = (todoId) => {
 
 const fetchTodos = async () => {
   try {
-    const getData = await axios.get("http://localhost:3000/todo")
+    const getData = await axios.get("https://vuejsproj.onrender.com/todo")
     todos.value = getData.data;
   } catch(err) {
     console.log(err)
@@ -41,7 +41,7 @@ const fetchTodos = async () => {
 
 const addTodo = async () => {
   try {
-  const post = await fetch("http://localhost:3000/todo", {
+  const post = await fetch("https://vuejsproj.onrender.com/todo", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -67,7 +67,7 @@ const addTodo = async () => {
 
 const deleteTodo = async(todo) => {
   try {
-    await fetch(`http://localhost:3000/todo/${todo._id}`, {
+    await fetch(`https://vuejsproj.onrender.com/todo/${todo._id}`, {
       method: "DELETE",
     });
   await fetchTodos();
@@ -81,7 +81,7 @@ const updateTodo = async () => {
   const todoIndex = todos.value.findIndex((todo) => todo._id === todoId);
   if (todoIndex !== -1) {
     try {
-      const patch = await fetch(`http://localhost:3000/todo/${todoId}`, {
+      const patch = await fetch(`https://vuejsproj.onrender.com/todo/${todoId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json"
