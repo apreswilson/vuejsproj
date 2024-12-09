@@ -19,7 +19,6 @@ await mongoose.connect(process.env.MONGODB_URI, {
 
 app.use("/todo", router);
 
-console.log(__dirname);
 
 app.use(express.static(path.join(__dirname, "../app/dist")));
 
