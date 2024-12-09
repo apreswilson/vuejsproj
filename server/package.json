@@ -4,7 +4,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node --env-file=config.env index"
+    "start": "node index.js"
   },
   "dependencies": {
     "body-parse": "^0.1.0",

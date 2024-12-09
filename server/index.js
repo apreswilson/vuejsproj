@@ -4,13 +4,16 @@ import express from "express";
 import router from "./routes/todoroutes.js"
 import path from "path";
 import url from "url";
+import dotenv from "dotenv";
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+dotenv.config();
 
 const app = express()
 app.use(cors())
 app.use(express.json())
+
 
 await mongoose.connect(process.env.MONGODB_URI, {
    bufferCommands: false
