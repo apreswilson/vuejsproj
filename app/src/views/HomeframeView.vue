@@ -1,11 +1,9 @@
 <script setup>
 import { onMounted, ref, toRaw } from 'vue';
 import axios from 'axios';
-
-const todos = ref([]);
+import addTodo from '@/components/add-todo.vue';
 
 const classNameList = {
-  addTodo: "addTodoForm",
   todo: "todoItem",
   deleteTodo: "deleteTodo",
   updateTodo: "updateTodo",
@@ -13,11 +11,10 @@ const classNameList = {
   editTodo: "editTodo"
 }
 
-const newTodoData = ref({})
+const todos = ref([]);
 const tempData = ref({})
-let statusMessage = ref("");
-let editTodo = ref("");
-let todoEditMessage = ref("");
+const editTodo = ref("");
+const todoEditMessage = ref("");
 
 const updateTodoFromList = (todoId) => {
   if (editTodo.value === todoId) {
@@ -39,38 +36,12 @@ const fetchTodos = async () => {
   }
 }
 
-const addTodo = async () => {
-  try {
-  const post = await fetch("https://vuejsproj.onrender.com/todo", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(toRaw(newTodoData.value))
-  });
-  
-  const response = await post.json();
-  response.success ? statusMessage.value = "Added todo" : statusMessage.value = "Error adding todo";
-  await fetchTodos();
-
-  setTimeout(() => {
-    statusMessage.value = "";
-  }, 3000)
-
-  newTodoData.value.name = ""
-  newTodoData.value.description = ""
-  } catch(err) {
-
-    console.error(err);
-  }
-}
-
 const deleteTodo = async(todo) => {
   try {
     await fetch(`https://vuejsproj.onrender.com/todo/${todo._id}`, {
       method: "DELETE",
     });
-  await fetchTodos();
+    todos.value = todos.value.filter((item) => item._id !== todo._id);
   } catch (err) {
     console.error(err);
   }
@@ -113,39 +84,15 @@ const cancelEdit = () => {
 }
 
 onMounted(fetchTodos)
-
-
 </script>
 
 <template>
   <div class="wrapper">
-    <h2>Create Todo</h2>
-    <form @submit.prevent="addTodo" :class="classNameList.addTodo">
-      <div class="form-section">
-        <label for="name">Name</label>
-        <input 
-          v-model.trim="newTodoData.name" 
-          type="text" 
-          name="name" 
-          id="name"
-        >
-      </div>
-      <div class="form-section">
-        <label for="description">Description</label>
-        <input 
-          v-model="newTodoData.description" 
-          type="text"
-          name="description" 
-          id="description"
-        >
-      </div> 
-      <button type="submit">Add</button>
-    </form>
 
-    <p :class="classNameList.status">{{ statusMessage }}</p>
+    <h2>Create Todo</h2>
+    <addTodo />
 
     <h2>Todo List</h2> 
-
     <p :class="classNameList.status">{{ todoEditMessage }}</p>
 
     <div class="todo-list">
@@ -229,7 +176,7 @@ onMounted(fetchTodos)
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .wrapper {
     display: flex;
     flex-direction: column;
@@ -237,46 +184,6 @@ onMounted(fetchTodos)
 
     h2 {
       color: rgb(0, 110, 255);
-    }
-
-    .addTodoForm {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      width: 27.5rem;
-      
-      .form-section {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-
-      .form-section>input {
-        padding: 0.5rem;
-        border-radius: 0.25rem;
-        outline: 1px solid black;
-        border: 0;
-        font-family: 'Open Sans', 'Inter', sans-serif, Times;
-        font-size: 1rem;
-      }
-
-      .form-section>input:focus {
-        outline: 1px solid rgb(0, 110, 255);
-      }
-
-      button {
-        background-color: rgb(0, 110, 255);
-        color: white;
-        padding: 0.5rem;
-        border: 0;
-        font-size: 1.25rem;
-        border-radius: 0.25rem;
-        cursor: pointer;
-      }
-
-      button:hover {
-        opacity: 0.8;
-      }
     }
 
     .status {
@@ -307,7 +214,7 @@ onMounted(fetchTodos)
         box-shadow: 0px 0px 5px grey;
         border-radius: 0.25rem;
       }
-      
+
       .todoItem>h3 {
         border-radius: 0.25rem 0.25rem 0 0;
         word-wrap: break-word;
@@ -324,7 +231,7 @@ onMounted(fetchTodos)
       .todo-incomplete>h3 {
         background-color: rgb(209, 11, 11);
       }
-      
+
       .todo-completed>.completion-status {
         border: 1px solid rgb(10, 163, 44);
         color: rgb(10, 163, 44);
@@ -376,7 +283,7 @@ onMounted(fetchTodos)
 
       .todoItem>.options>.confirm:disabled {
         background-color: grey;
-        cursor:not-allowed;
+      cursor:not-allowed;
       }
 
       .todoItem>.options {
@@ -434,8 +341,6 @@ onMounted(fetchTodos)
         display: flex;
         flex-direction: column;
       }
-
     }
   }
-
 </style>

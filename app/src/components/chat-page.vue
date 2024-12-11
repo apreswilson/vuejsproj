@@ -7,6 +7,7 @@ import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 
 <template>
   <div class="page">
+    {{ propTest }}
     <div class="chat">
 
       <div class="chat-row">
