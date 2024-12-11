@@ -26,6 +26,9 @@
 
 **Platform Provider Chosen:** Render.com 
 
+**Tuesday**
+1. Split form section into its own component
+
 # Todo Data Structure
 
 Todo {
