@@ -1,5 +1,7 @@
 # Workflow
 
+Super basic CRUD app that I made in preparation for an interview once.
+
 **Friday:** 
 
 1. Read through Vue.js Documentation to gain introductory grasp on the basics
